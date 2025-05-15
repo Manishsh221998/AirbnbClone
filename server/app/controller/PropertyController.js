@@ -16,6 +16,7 @@ class PropertyController {
       console.log("Property view error", error);
     }
   }
+  
 
   async createProperty(req, res) {
     // console.log(req.body)

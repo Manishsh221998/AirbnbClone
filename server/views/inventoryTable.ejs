@@ -178,6 +178,47 @@
     <!-- End of Page Wrapper -->
 
     <!-- Bootstrap core JavaScript-->
+     <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const tableRows = document.querySelectorAll('tbody tr');
+    
+    searchInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase().trim();
+      
+      tableRows.forEach(row => {
+        if (row.querySelector('td.text-muted')) {
+          // Skip the "No properties found" row
+          return;
+        }
+        
+        const propertyType = row.children[1].textContent.toLowerCase();
+        const category = row.children[2].textContent.toLowerCase();
+        const roomType = row.children[3].textContent.toLowerCase();
+        const price = row.children[8].textContent.toLowerCase().replace(/[^0-9]/g, '');
+        
+        // Check if search term matches any of the fields
+        const matches = 
+          propertyType.includes(searchTerm) ||
+          category.includes(searchTerm) ||
+          roomType.includes(searchTerm) ||
+          price.includes(searchTerm);
+        
+        row.style.display = matches ? '' : 'none';
+      });
+      
+      // Show "No results" message if all rows are hidden
+      const visibleRows = Array.from(tableRows).filter(row => row.style.display !== 'none');
+      const noResultsRow = document.querySelector('td.text-muted');
+      
+      if (visibleRows.length === 0 && noResultsRow) {
+        noResultsRow.parentElement.style.display = '';
+      } else if (noResultsRow) {
+        noResultsRow.parentElement.style.display = 'none';
+      }
+    });
+  });
+</script>
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
