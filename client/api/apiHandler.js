@@ -34,3 +34,7 @@ export const createBooking = (data) =>
 
 // property-images
 export const getProperties = () => axiosInstance.get(ENDPOINTS.GET_PROPERTIES);
+
+// single Property view
+export const getSingleProperty = (id) =>
+  axiosInstance.get(`${ENDPOINTS.GET_SINGLE_PROPERTY}/${id}`);

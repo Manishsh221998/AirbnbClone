@@ -7,19 +7,21 @@ import AirbnbFooter from "../layout/footer/Footer";
 
 import UserProfile from "../components/userProfile/UserProfile";
 // import Error from "../components/error/Error";
-import PlacesList from "../components/cards/placeList";
+import { SingleProperty } from "../components/cards/SingleProperty";
 import ResetPasswordModal from "../components/auth/ResetPassword";
 import PropertyList from "../components/cards/PropertyList";
 
 const Routing = () => {
   const token = window.localStorage.getItem("usertoken");
- 
+
   return (
     <Router>
       <AirbnbHeader />
 
       <Routes>
+        <Route path="/" element={<PropertyList />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/property/:id" element={<SingleProperty />} />
         <Route
           path="/account/reset-password-link/:id/:token"
           element={<ResetPasswordModal />}
@@ -27,8 +29,6 @@ const Routing = () => {
         {/* <Route path="*" element={<Error />} /> */}
       </Routes>
 
-      {/* <PlacesList /> */}
-     { <PropertyList/>}
       <ModalController />
       <AirbnbFooter />
     </Router>
