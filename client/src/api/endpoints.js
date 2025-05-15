@@ -25,7 +25,8 @@ const ENDPOINTS = {
   CREATE_HOTEL: "/create-hotel",
 
   // Bookings
-  CREATE_BOOKING: "/booking",
+  CREATE_BOOKING: "/booking/create",
+  GET_BOOKING:"/booking/get",
 
   // property images
   GET_PROPERTIES: "/property-list",

@@ -36,6 +36,8 @@ export const createHotel = (data) =>
 // Booking
 export const createBooking = (data) =>
   axiosInstance.post(ENDPOINTS.CREATE_BOOKING, data);
+export const getBooking=()=>
+  axiosInstance.get(ENDPOINTS.GET_BOOKING)
 
 // Property Listing
 export const getProperties = async () => {

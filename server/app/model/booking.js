@@ -6,7 +6,7 @@ const BookingSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    check_out: {
+    check_out: { 
       type: Date,
       required: true,
     },
@@ -14,6 +14,10 @@ const BookingSchema = new mongoose.Schema(
         adults: { type: Number, default: 1 },
         children: { type: Number, default: 0 },
       },
+    // userId:{
+    //     type:Schema.Types.ObjectId,
+    //     ref:"user"
+    // },
     totalPrice: {
         type: Number,
         // required: true

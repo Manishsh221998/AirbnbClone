@@ -45,6 +45,7 @@ import {
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import BookingForm from "../booking/BookingForm";
 
 const amenityIcons = {
   wifi: <Wifi />,
@@ -223,39 +224,17 @@ export const SingleProperty = () => {
                 mb: 2,
               }}
             >
-              <Typography variant="h5" fontWeight="bold">
+              {/* <Typography variant="h5" fontWeight="bold">
                 ₹{property.price.toLocaleString()}
                 <Typography component="span" color="text.secondary">
                   {" "}
                   night
                 </Typography>
-              </Typography>
+              </Typography> */}
               <Rating value={4.5} precision={0.5} readOnly size="small" />
             </Box>
-
-            <Box sx={{ mb: 3 }}>
-              <Button
-                variant="contained"
-                fullWidth
-                size="large"
-                sx={{
-                  py: 1.5,
-                  borderRadius: 2,
-                  backgroundColor: "#FF385C",
-                  "&:hover": { backgroundColor: "#E61E4D" },
-                }}
-              >
-                Reserve
-              </Button>
-            </Box>
-
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              textAlign="center"
-            >
-              You won't be charged yet
-            </Typography>
+              <BookingForm price={property.price}/>
+              
 
             <Divider sx={{ my: 3 }} />
 

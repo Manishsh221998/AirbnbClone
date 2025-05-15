@@ -57,6 +57,9 @@ app.use(adminRoute);
 
 app.use("/api", router);
 
+const bookingRoute=require("./app/router/bookingRoutes")
+app.use("/api",bookingRoute)
+
 // Server start
 app.listen(process.env.PORT, () => {
   console.log("Server is running on port", process.env.PORT);

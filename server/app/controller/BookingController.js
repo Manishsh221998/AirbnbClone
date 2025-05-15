@@ -1,4 +1,5 @@
 
+const { sendBookingMail } = require('../helper/bookingEmail');
 const Booking = require('../model/booking');
 
 class BookingController {
@@ -21,7 +22,7 @@ class BookingController {
       });
 
       const booked = await BookingData.save();
-
+      await sendBookingMail(req,);
       return res.status(201).json({
         status: true,
         message: "Booking successfully",
@@ -33,6 +34,15 @@ class BookingController {
       res.status(500).json({ status: false, message: "Server error" });
     }
   }
+  // =========== Get ====================
+  async getBookings (req, res) {
+  try {
+    const bookings = await Booking.find();
+    res.json(bookings);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
 }
 
 module.exports = new BookingController();
