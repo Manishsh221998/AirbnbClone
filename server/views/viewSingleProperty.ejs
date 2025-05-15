@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= property.title %> | Property Details</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-color: #4e54c8;
+        --secondary-color: #8f94fb;
+        --accent-color: #ff7e5f;
+        --light-color: #f8f9fa;
+        --dark-color: #343a40;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f5f7fa;
+        color: #333;
+      }
+
+      .property-header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .property-image-container {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        margin-bottom: 1.5rem;
+      }
+
+      .property-image-container:hover {
+        transform: translateY(-5px);
+      }
+
+      .property-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+      }
+
+      .main-image {
+        height: 500px;
+      }
+
+      .detail-card {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .detail-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .detail-card .card-header {
+        background-color: white;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        font-weight: 600;
+        color: var(--primary-color);
+        border-radius: 12px 12px 0 0 !important;
+      }
+
+      .detail-item {
+        padding: 0.75rem 1.25rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .detail-item:last-child {
+        border-bottom: none;
+      }
+
+      .detail-label {
+        font-weight: 500;
+        color: var(--dark-color);
+      }
+
+      .detail-value {
+        font-weight: 400;
+        color: #555;
+        text-align: right;
+      }
+
+      .price-badge {
+        background-color: var(--accent-color);
+        color: white;
+        font-size: 1.25rem;
+        padding: 0.5rem 1.25rem;
+        border-radius: 50px;
+        box-shadow: 0 4px 8px rgba(255, 126, 95, 0.3);
+      }
+
+      .amenity-badge {
+        background-color: var(--light-color);
+        color: var(--dark-color);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        display: inline-flex;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .amenity-badge i {
+        margin-right: 0.5rem;
+        color: var(--primary-color);
+      }
+
+      .back-btn {
+        border-radius: 50px;
+        padding: 0.5rem 1.25rem;
+        font-weight: 500;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .section-title {
+        position: relative;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+      }
+
+      .section-title:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background-color: var(--accent-color);
+        border-radius: 3px;
+      }
+
+      .rule-icon {
+        width: 24px;
+        height: 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+        background-color: rgba(78, 84, 200, 0.1);
+        color: var(--primary-color);
+      }
+
+      .gallery-container {
+        position: relative;
+      }
+
+      .gallery-count {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .property-image,
+        .main-image {
+          height: 200px;
+        }
+
+        .price-badge {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Property Header -->
+    <div class="property-header">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="/inventoryTable" class="btn btn-light back-btn">
+            <i class="fas fa-arrow-left me-2"></i> Back to Inventory
+          </a>
+          <div class="price-badge">
+            ₹<%= property.price.toLocaleString() %> <small>/ night</small>
+          </div>
+        </div>
+        <h1 class="mt-3 mb-2"><%= property.title %></h1>
+        <div class="d-flex align-items-center">
+          <i class="fas fa-map-marker-alt me-2"></i>
+          <span><%= property.location %></span>
+          <span class="mx-3">|</span>
+          <i class="fas fa-home me-2"></i>
+          <span><%= property.propertyType %></span>
+          <span class="mx-3">|</span>
+          <i class="fas fa-layer-group me-2"></i>
+          <span><%= property.category %></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mb-5">
+      <!-- Image Gallery -->
+      <div class="row mb-5">
+        <% if (property.images && property.images.length > 0) { %>
+        <div class="col-lg-8 mb-4">
+          <div class="property-image-container gallery-container">
+            <img
+              src="/<%= property.images[0] %>"
+              alt="Property Image"
+              class="property-image main-image"
+            />
+            <% if (property.images.length > 1) { %>
+            <span class="gallery-count">
+              +<%= property.images.length - 1 %> more
+            </span>
+            <% } %>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="row">
+            <% property.images.slice(1, 5).forEach((img, index) => { %>
+            <div
+              class="col-md-6 col-lg-12 mb-3 <%= index === 3 ? 'd-none d-lg-block' : '' %>"
+            >
+              <div class="property-image-container">
+                <img
+                  src="/<%= img %>"
+                  alt="Property Image"
+                  class="property-image"
+                />
+              </div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+        <% } else { %>
+        <div class="col-12">
+          <div
+            class="property-image-container bg-light d-flex align-items-center justify-content-center"
+            style="height: 300px"
+          >
+            <div class="text-center text-muted">
+              <i class="fas fa-image fa-3x mb-3"></i>
+              <p>No images available</p>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="row">
+        <!-- Left Column -->
+        <div class="col-lg-8">
+          <!-- Description -->
+          <div class="card detail-card">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-align-left me-2"></i>Description
+              </h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                <%= property.description || 'No description provided.' %>
+              </p>
+            </div>
+          </div>
+
+          <!-- Amenities -->
+          <div class="card detail-card">
+            <div class="card-header">
+              <h5 class="mb-0"><i class="fas fa-star me-2"></i>Amenities</h5>
+            </div>
+            <div class="card-body">
+              <% if (property.amenities && property.amenities.length > 0) { %>
+              <% property.amenities.forEach((amenity) => { %>
+              <span class="amenity-badge">
+                <i class="fas fa-check"></i> <%= amenity %>
+              </span>
+              <% }) %> <% } else { %>
+              <p class="text-muted">No amenities listed.</p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-4">
+          <!-- Quick Details -->
+          <div class="card detail-card">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-info-circle me-2"></i>Quick Details
+              </h5>
+            </div>
+            <div class="list-group list-group-flush">
+              <div class="detail-item">
+                <span class="detail-label">Category</span>
+                <span class="detail-value"><%= property.category %></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Property Type</span>
+                <span class="detail-value"><%= property.propertyType %></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Room Type</span>
+                <span class="detail-value"><%= property.roomType %></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Listed On</span>
+                <span class="detail-value"
+                  ><%= new Date(property.createdAt).toLocaleDateString()
+                  %></span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Capacity -->
+          <div class="card detail-card mt-4">
+            <div class="card-header">
+              <h5 class="mb-0"><i class="fas fa-users me-2"></i>Capacity</h5>
+            </div>
+            <div class="list-group list-group-flush">
+              <div class="detail-item">
+                <span class="detail-label"
+                  ><i class="fas fa-user me-2"></i>Guests</span
+                >
+                <span class="detail-value"
+                  ><%= property.capacity.guests %></span
+                >
+              </div>
+              <div class="detail-item">
+                <span class="detail-label"
+                  ><i class="fas fa-bed me-2"></i>Bedrooms</span
+                >
+                <span class="detail-value"
+                  ><%= property.capacity.bedrooms %></span
+                >
+              </div>
+              <div class="detail-item">
+                <span class="detail-label"
+                  ><i class="fas fa-bed me-2"></i>Beds</span
+                >
+                <span class="detail-value"><%= property.capacity.beds %></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label"
+                  ><i class="fas fa-bath me-2"></i>Bathrooms</span
+                >
+                <span class="detail-value"
+                  ><%= property.capacity.bathrooms %></span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- House Rules -->
+          <div class="card detail-card mt-4">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-clipboard-list me-2"></i>House Rules
+              </h5>
+            </div>
+            <div class="list-group list-group-flush">
+              <div class="detail-item">
+                <span class="detail-label">
+                  <span class="rule-icon">
+                    <i class="fas fa-paw"></i>
+                  </span>
+                  Pets Allowed
+                </span>
+                <span
+                  class="detail-value badge <%= property.rules.petsAllowed ? 'bg-success' : 'bg-secondary' %>"
+                >
+                  <%= property.rules.petsAllowed ? 'Yes' : 'No' %>
+                </span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">
+                  <span class="rule-icon">
+                    <i class="fas fa-smoking"></i>
+                  </span>
+                  Smoking Allowed
+                </span>
+                <span
+                  class="detail-value badge <%= property.rules.smokingAllowed ? 'bg-success' : 'bg-secondary' %>"
+                >
+                  <%= property.rules.smokingAllowed ? 'Yes' : 'No' %>
+                </span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">
+                  <span class="rule-icon">
+                    <i class="fas fa-glass-cheers"></i>
+                  </span>
+                  Parties Allowed
+                </span>
+                <span
+                  class="detail-value badge <%= property.rules.partiesAllowed ? 'bg-success' : 'bg-secondary' %>"
+                >
+                  <%= property.rules.partiesAllowed ? 'Yes' : 'No' %>
+                </span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">
+                  <span class="rule-icon">
+                    <i class="fas fa-child"></i>
+                  </span>
+                  Children Allowed
+                </span>
+                <span
+                  class="detail-value badge <%= property.rules.childrenAllowed ? 'bg-success' : 'bg-secondary' %>"
+                >
+                  <%= property.rules.childrenAllowed ? 'Yes' : 'No' %>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS for image gallery -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Simple image gallery functionality
+        const mainImage = document.querySelector(".main-image");
+        const thumbnails = document.querySelectorAll(
+          ".property-image:not(.main-image)"
+        );
+
+        if (mainImage && thumbnails.length > 0) {
+          thumbnails.forEach((thumb) => {
+            thumb.addEventListener("click", function () {
+              const tempSrc = mainImage.src;
+              mainImage.src = this.src;
+              this.src = tempSrc;
+            });
+          });
+        }
+
+        // Add animation to cards when they come into view
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add(
+                  "animate__animated",
+                  "animate__fadeInUp"
+                );
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        document.querySelectorAll(".detail-card").forEach((card) => {
+          observer.observe(card);
+        });
+      });
+    </script>
+  </body>
+</html>

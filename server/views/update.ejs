@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Update Property</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+
+    <!-- Custom styles for this template-->
+    <link href="stylesheet/css/sb-admin-2.min.css" rel="stylesheet" />
+    <style>
+      /* Property Form Specific Styles - Won't affect sidebar/topbar */
+      .property-form-wrapper {
+        padding: 20px;
+      }
+      .property-form-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .property-form-container h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+      }
+      .property-form-container .form-group {
+        margin-bottom: 14px;
+      }
+      .property-form-container label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      .property-form-container .lable-heading {
+        font-weight: 600;
+        color: rgb(7, 100, 147);
+      }
+      .property-form-container input[type="text"],
+      .property-form-container input[type="number"],
+      .property-form-container textarea,
+      .property-form-container select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .property-form-container textarea {
+        height: 100px;
+      }
+      .property-form-container .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .property-form-container .checkbox-item {
+        display: flex;
+        align-items: center;
+        width: calc(33% - 10px);
+      }
+      .property-form-container .checkbox-item input {
+        margin-right: 5px;
+        accent-color: red;
+      }
+      .property-form-container .rules-group {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+      }
+      .property-form-container .rules-item {
+        display: flex;
+        align-items: center;
+      }
+      .property-form-container .rules-item input {
+        margin-right: 5px;
+        accent-color: red;
+      }
+      .property-form-container button {
+        background-color: crimson;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .property-form-container button:hover {
+        background-color: #b01030;
+      }
+      .property-form-container .capacity-group {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+      .property-form-container .capacity-item {
+        flex: 1;
+        min-width: 120px;
+      }
+      .property-form-container .image-upload {
+        margin-top: 10px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .property-form-container .checkbox-item {
+          width: calc(50% - 10px);
+        }
+        .property-form-container .rules-group {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body id="page-top">
+
+          <!-- Begin Update property -->
+          <div class="property-form-wrapper">
+            <div class="property-form-container">
+              <h1>Update Property</h1>
+              <form enctype="multipart/form-data" action="/update-property/<%= data._id %>" method="post">
+                <!-- Basic Information -->
+                <div class="form-group">
+                  <label for="title" class="lable-heading">Property Title*</label>
+                  <input type="text" id="title" name="title" required value="<%= data.title %>">
+                </div>
+
+                <div class="form-group">
+                  <label for="description" class="lable-heading">Description</label>
+                  <textarea id="description" name="description"><%= data.description %></textarea>
+                </div>
+                
+                <!-- category -->
+                <div class="form-group">
+                  <label for="category" class="lable-heading">Category</label>
+                  <select id="category" name="category" required>
+                    <option value="">Select category type</option>
+                    <% ["Amazing views", "Beachfronts", "Castles", "Lake", "New", "Mansions", "OMG!", "Rooms", "Top cities", "Top of the world"].forEach(function(category) { %>
+                      <option value="<%= category %>" <%= data.category === category ? 'selected' : '' %>><%= category %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                
+                <!-- Property Type -->
+                <div class="form-group">
+                  <label for="propertyType" class="lable-heading">Property Type*</label>
+                  <select id="propertyType" name="propertyType" required>
+                    <option value="">Select property type</option>
+                    <% ["Apartment", "Farm stay", "House", "Villa", "Cabin", "Hotel", "Guesthouse", "Unique", "Tree House"].forEach(function(type) { %>
+                      <option value="<%= type %>" <%= data.propertyType === type ? 'selected' : '' %>><%= type %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="roomType" class="lable-heading">Room Type*</label>
+                  <select id="roomType" name="roomType" required>
+                    <% ["entire", "private", "shared"].forEach(function(room) { %>
+                      <option value="<%= room %>" <%= data.roomType === room ? 'selected' : '' %>>
+                        <%= room.charAt(0).toUpperCase() + room.slice(1) %> room
+                      </option>
+                    <% }) %>
+                  </select>
+                </div>
+
+                <!-- Location -->
+                <div class="form-group">
+                  <label for="location" class="lable-heading">Location*</label>
+                  <input type="text" id="location" name="location" required value="<%= data.location %>">
+                </div>
+
+                <!-- Capacity -->
+                <div class="form-group">
+                  <label class="lable-heading">Capacity*</label>
+                  <hr />
+                  <div class="capacity-group">
+                    <div class="capacity-item">
+                      <label for="guests">Guests</label>
+                      <input type="number" id="guests" name="capacity[guests]" min="1" required value="<%= data.capacity?.guests || '1' %>">
+                    </div>
+                    <div class="capacity-item">
+                      <label for="bedrooms">Bedrooms</label>
+                      <input type="number" id="bedrooms" name="capacity[bedrooms]" min="1" required value="<%= data.capacity?.bedrooms || '1' %>">
+                    </div>
+                    <div class="capacity-item">
+                      <label for="beds">Beds</label>
+                      <input type="number" id="beds" name="capacity[beds]" min="1" required value="<%= data.capacity?.beds || '1' %>">
+                    </div>
+                    <div class="capacity-item">
+                      <label for="bathrooms">Bathrooms</label>
+                      <input type="number" id="bathrooms" name="capacity[bathrooms]" min="1" required value="<%= data.capacity?.bathrooms || '1' %>">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Amenities -->
+                <div class="form-group">
+                  <label class="lable-heading">Amenities</label>
+                  <hr />
+                  <div class="checkbox-group">
+                    <% 
+                      const amenitiesList = ["wifi", "kitchen", "washer", "dryer", "ac", "heating", "tv", "pool", "parking", "elevator", "workspace", "hot_tub", "breakfast", "gym", "fireplace", "iron"];
+                      amenitiesList.forEach(function(item) { 
+                    %>
+                      <div class="checkbox-item">
+                        <input 
+                          type="checkbox" 
+                          id="<%= item %>" 
+                          name="amenities" 
+                          value="<%= item %>" 
+                          <%= data.amenities?.includes(item) ? 'checked' : '' %>>
+                        <label for="<%= item %>"><%= item.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) %></label>
+                      </div>
+                    <% }) %>
+                  </div>
+                </div>
+
+                <!-- Images -->
+                <div class="form-group">
+                  <label for="images" class="lable-heading">Property Images</label>
+                  <input type="file" multiple id="images" name="images" class="image-upload">
+                  <small>Upload new images to replace existing ones</small>
+                  <% if (data.images && data.images.length > 0) { %>
+                    <div class="current-images">
+                      <p>Current Images:</p>
+                      <% data.images.forEach((img, index) => { %>
+                        <img src="/<%= img %>" alt="Property image <%= index + 1 %>" style="width: 100px; height: auto; margin: 5px;">
+                      <% }) %>
+                    </div>
+                  <% } %>
+                </div>
+
+                <!-- Price -->
+                <div class="form-group">
+                  <label for="price" class="lable-heading">Price per night*</label>
+                  <input type="number" id="price" name="price" min="1" required value="<%= data.price %>">
+                </div>
+
+                <!-- Rules -->
+                <div class="form-group">
+                  <label class="lable-heading">House Rules</label>
+                  <div class="rules-group">
+                    <div class="rules-item">
+                      <input type="checkbox" id="petsAllowed" name="rules[petsAllowed]" <%= data.rules?.petsAllowed ? 'checked' : '' %>>
+                      <label for="petsAllowed">Pets Allowed</label>
+                    </div>
+                    <div class="rules-item">
+                      <input type="checkbox" id="smokingAllowed" name="rules[smokingAllowed]" <%= data.rules?.smokingAllowed ? 'checked' : '' %>>
+                      <label for="smokingAllowed">Smoking Allowed</label>
+                    </div>
+                    <div class="rules-item">
+                      <input type="checkbox" id="partiesAllowed" name="rules[partiesAllowed]" <%= data.rules?.partiesAllowed ? 'checked' : '' %>>
+                      <label for="partiesAllowed">Parties Allowed</label>
+                    </div>
+                    <div class="rules-item">
+                      <input type="checkbox" id="childrenAllowed" name="rules[childrenAllowed]" <%= data.rules?.childrenAllowed ? 'checked' : 'checked' %>>
+                      <label for="childrenAllowed">Children Allowed</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                  <button type="submit">Update Property</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- End Update property -->
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+  </body>
+</html>
