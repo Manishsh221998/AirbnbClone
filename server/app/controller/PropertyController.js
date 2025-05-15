@@ -241,5 +241,24 @@ class PropertyController {
       res.status(500).send("Server Error");
     }
   }
+
+ // single property for client
+async getSingleProperty(req, res) {
+  try {
+    const { id } = req.params;
+
+    const property = await Property.findById(id);
+
+    if (!property) {
+      return res.status(404).json({ message: "Property not found" });
+    }
+
+    res.status(200).json(property);
+  } catch (error) {
+    console.error("Error fetching single property:", error);
+    res.status(500).json({ message: "Internal server error", error });
+  }
+}
+
 }
 module.exports = new PropertyController();

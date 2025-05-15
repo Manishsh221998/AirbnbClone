@@ -14,10 +14,14 @@ export const login = (data) => axiosInstance.post(ENDPOINTS.LOGIN, data);
 export const sendResetPasswordLink = (data) =>
   axiosInstance.post(ENDPOINTS.RESET_PASSWORD_LINK, data);
 
- export const resetPassword = (data) => axiosInstance.post(`${ENDPOINTS.RESET_PASSWORD}/${data.id}/${data.token}`, data.data);
+export const resetPassword = (data) =>
+  axiosInstance.post(
+    `${ENDPOINTS.RESET_PASSWORD}/${data.id}/${data.token}`,
+    data.data
+  );
 
-
-export const changeProfilePic=(data)=>axiosInstance.put(ENDPOINTS.CHANGE_PROFILE_PIC,data)
+export const changeProfilePic = (data) =>
+  axiosInstance.put(ENDPOINTS.CHANGE_PROFILE_PIC, data);
 
 // Profile
 export const getProfile = () => axiosInstance.get(ENDPOINTS.PROFILE);
@@ -41,6 +45,18 @@ export const getProperties = async () => {
     return response.data.data;
   } catch (error) {
     console.error("Error fetching properties:", error.response || error);
+    throw error;
+  }
+};
+
+// single property view
+export const SingleProperty = async (id) => {
+  try {
+    const response = await axiosInstance.get(`${ENDPOINTS.GET_SINGLE_PROPERTY}/${id}`);
+    console.log("Single property response:", response.data);
+    return response.data; // Return the full response data
+  } catch (error) {
+    console.error("Error fetching single property:", error.response || error);
     throw error;
   }
 };

@@ -8,7 +8,7 @@ export const ENDPOINTS = {
   OTP_VERIFY: "/otp-verify",
   LOGIN: "/user-login",
   RESET_PASSWORD_LINK: "/reset-password-link",
-  RESET_PASSWORD:  "/reset-password",
+  RESET_PASSWORD: "/reset-password",
 
   // User Profile
   PROFILE: "/profile",
@@ -22,6 +22,9 @@ export const ENDPOINTS = {
 
   // PROPERTY-images
   GET_PROPERTIES: "/property-list",
+
+  // single Property
+  GET_SINGLE_PROPERTY: "/single-property",
 };
 
 export default BASE_URL;

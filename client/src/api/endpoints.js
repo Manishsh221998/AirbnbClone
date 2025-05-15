@@ -14,12 +14,12 @@ const ENDPOINTS = {
   OTP_VERIFY: "/otp-verify",
   LOGIN: "/user-login",
   RESET_PASSWORD_LINK: "/reset-password-link",
-  RESET_PASSWORD:`/reset-password`,
+  RESET_PASSWORD: `/reset-password`,
 
   // User Profile
   PROFILE: "/profile",
   UPDATE_PASSWORD: "/update-password",
-  CHANGE_PROFILE_PIC:"/change-profilePic",
+  CHANGE_PROFILE_PIC: "/change-profilePic",
 
   // Hotels
   CREATE_HOTEL: "/create-hotel",
@@ -29,6 +29,9 @@ const ENDPOINTS = {
 
   // property images
   GET_PROPERTIES: "/property-list",
+
+  //get single property
+  GET_SINGLE_PROPERTY: "/single-property",
 };
 
 export default ENDPOINTS;
