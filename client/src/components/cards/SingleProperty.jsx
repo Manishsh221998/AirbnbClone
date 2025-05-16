@@ -233,7 +233,7 @@ export const SingleProperty = () => {
               </Typography> */}
               <Rating value={4.5} precision={0.5} readOnly size="small" />
             </Box>
-              <BookingForm price={property.price}/>
+              <BookingForm price={property.price} title={property.title}/>
               
 
             <Divider sx={{ my: 3 }} />

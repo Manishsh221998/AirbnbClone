@@ -18,7 +18,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import { createBooking } from '../../api/apiHandler';
 
-export default function BookingForm({price}) {
+export default function BookingForm({price,title}) {
   const { register, handleSubmit, reset, watch } = useForm();
   const queryClient = useQueryClient();
 
@@ -53,9 +53,12 @@ export default function BookingForm({price}) {
 
   const mutation = useMutation({
     mutationFn: createBooking,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['bookings'] });
-      reset();
+    onSuccess: (data) => {
+      // queryClient.invalidateQueries({ queryKey: ['bookings'] });
+      alert("Booking completed")
+      console.log("after mutation data",data);
+      
+      // reset();
     },
   });
 
@@ -72,6 +75,9 @@ export default function BookingForm({price}) {
   };
 
   const onSubmit = (data) => {
+    console.log("before",data);
+   let userId= window.localStorage.getItem("userId");
+   let userName= window.localStorage.getItem("userName");
     data.guests = {
       adults,
       children,
@@ -79,6 +85,9 @@ export default function BookingForm({price}) {
       pets
     };
     data.totalPrice = totalPrice;
+    data.userId=userId;
+    data.title=title;
+    data.userName=userName
     console.log("data", data);
     mutation.mutate(data);
   };

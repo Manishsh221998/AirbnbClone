@@ -12,11 +12,11 @@ router.post("/reset-password-link", UserController.resetPasswordLink);
 router.post("/reset-password/:id/:token",UserController.resetPassword);
 
  
+// router.post("/booking",BookingController.bookingData)
 router.use(AuthCheck)
  router.get("/profile",UserController.profile);
  router.post("/update-password",UserController.updatePassword);
  router.put("/change-profilePic",UserImage.single('image'),UserController.changeProfilePic);
  //  Booking
-router.post("/booking",BookingController.bookingData)
 
 module.exports = router;

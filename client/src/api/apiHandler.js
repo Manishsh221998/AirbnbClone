@@ -1,3 +1,4 @@
+import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import ENDPOINTS from "./endpoints";
 
@@ -34,10 +35,19 @@ export const createHotel = (data) =>
   axiosInstance.post(ENDPOINTS.CREATE_HOTEL, data);
 
 // Booking
-export const createBooking = (data) =>
-  axiosInstance.post(ENDPOINTS.CREATE_BOOKING, data);
-export const getBooking=()=>
-  axiosInstance.get(ENDPOINTS.GET_BOOKING)
+// export const createBooking = async(data) =>{
+//   let res =await axiosInstance.post(ENDPOINTS.CREATE_BOOKING, data)
+//   return res ;}
+// export const getBooking=()=>
+//   axiosInstance.get(ENDPOINTS.GET_BOOKING)
+export const getBookings = async () => {
+  const { data } = await axios.get('http://localhost:6001/booked/booking/get');
+  return data;
+};
+export const createBooking = async (bookingData) => {
+  const { data } = await axios.post('http://localhost:6001/booked/booking/create', bookingData);
+  return data;
+};
 
 // Property Listing
 export const getProperties = async () => {

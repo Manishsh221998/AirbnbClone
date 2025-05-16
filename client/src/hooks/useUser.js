@@ -51,6 +51,8 @@ export const useLogin = () => {
 
       window.localStorage.setItem("usertoken",data.data.token);
         window.localStorage.setItem("userImage", data?.data?.data?.image);
+        window.localStorage.setItem("userId", data?.data?.data?._id);
+        window.localStorage.setItem("userName", data?.data?.data?.username);
         navigate("/");  
     }
     ,

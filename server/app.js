@@ -58,7 +58,7 @@ app.use(adminRoute);
 app.use("/api", router);
 
 const bookingRoute=require("./app/router/bookingRoutes")
-app.use("/api",bookingRoute)
+app.use("/booked",bookingRoute)
 
 // Server start
 app.listen(process.env.PORT, () => {

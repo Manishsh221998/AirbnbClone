@@ -6,7 +6,8 @@ class BookingController {
   // =========== POST ==================
   async bookingData(req, res) {
     try {
-      const { check_in, check_out, guests } = req.body;
+      // const user=req.body.userName;
+      const { check_in, check_out, guests,totalPrice,userId,title,userName } = req.body;
 
       if (!(check_in && check_out && guests)) {
         return res.status(400).json({
@@ -19,10 +20,14 @@ class BookingController {
         check_in,
         check_out,
         guests,
+        totalPrice,
+        userId,
+        title,
+        userName
       });
 
       const booked = await BookingData.save();
-      await sendBookingMail(req,);
+      // await sendBookingMail(userName);
       return res.status(201).json({
         status: true,
         message: "Booking successfully",
