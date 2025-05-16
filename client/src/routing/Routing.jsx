@@ -12,14 +12,13 @@ import ResetPasswordModal from "../components/auth/ResetPassword";
 import PropertyList from "../components/cards/PropertyList";
 
 const Routing = () => {
-  const token = window.localStorage.getItem("usertoken");
-
   return (
     <Router>
       <AirbnbHeader />
 
       <Routes>
         <Route path="/" element={<PropertyList />} />
+        <Route path="/properties" element={<PropertyList />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/property/:id" element={<SingleProperty />} />
         <Route

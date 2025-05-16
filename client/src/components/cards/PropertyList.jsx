@@ -1,5 +1,5 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { createSearchParams, useSearchParams } from "react-router-dom";
 import {
   Card,
   CardMedia,
@@ -21,7 +21,6 @@ import { styled } from "@mui/material/styles";
 import { usePropertiesQuery } from "../../hooks/useProperty";
 import { useNavigate } from "react-router-dom";
 
-// Custom styled components
 const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: 12,
   boxShadow: "none",
@@ -37,11 +36,11 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 const ImageContainer = styled(Box)(({ theme }) => ({
   position: "relative",
-  height: 250, // Fixed height
-  width: 250, // Fixed width
+  height: 250,
+  width: 250,
   borderRadius: 12,
   overflow: "hidden",
-  margin: "0 auto", // Center the image container
+  margin: "0 auto",
 }));
 
 const FavoriteButton = styled(IconButton)(({ theme }) => ({
@@ -81,10 +80,36 @@ const NextButton = styled(NavButton)({
 
 const PropertyList = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
+
   const [visibleItems, setVisibleItems] = useState(10);
   const [favorites, setFavorites] = useState({});
   const [currentImageIndex, setCurrentImageIndex] = useState({});
-  const { data, isPending } = usePropertiesQuery();
+  const { data: allProperties, isPending } = usePropertiesQuery();
+
+  const [filteredProperties, setFilteredProperties] = useState([]);
+
+  useEffect(() => {
+    if (allProperties) {
+      if (category) {
+        const filtered = allProperties.filter(
+          (property) =>
+            property.category?.toLowerCase() === category.toLowerCase()
+        );
+        setFilteredProperties(filtered);
+      } else {
+        setFilteredProperties(allProperties);
+      }
+      setVisibleItems(10);
+    }
+  }, [allProperties, category]);
+
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return "/placeholder.jpg";
+    const normalizedPath = imagePath.replace(/\\/g, "/");
+    return `http://localhost:6001/${normalizedPath}`;
+  };
 
   const toggleFavorite = (e, id) => {
     e.stopPropagation();
@@ -104,55 +129,69 @@ const PropertyList = () => {
 
   const handleNextImage = (e, propertyId) => {
     e.stopPropagation();
-    const property = data.find((p) => p.id === propertyId);
-    setCurrentImageIndex((prev) => ({
-      ...prev,
-      [propertyId]: ((prev[propertyId] || 0) + 1) % property.images.length,
-    }));
+    const property = filteredProperties.find((p) => p._id === propertyId);
+    if (property?.images) {
+      setCurrentImageIndex((prev) => ({
+        ...prev,
+        [propertyId]: ((prev[propertyId] || 0) + 1) % property.images.length,
+      }));
+    }
   };
 
   const handlePrevImage = (e, propertyId) => {
     e.stopPropagation();
-    const property = data.find((p) => p.id === propertyId);
-    setCurrentImageIndex((prev) => ({
-      ...prev,
-      [propertyId]:
-        ((prev[propertyId] || 0) - 1 + property.images.length) %
-        property.images.length,
-    }));
+    const property = filteredProperties.find((p) => p._id === propertyId);
+    if (property?.images) {
+      setCurrentImageIndex((prev) => ({
+        ...prev,
+        [propertyId]:
+          ((prev[propertyId] || 0) - 1 + property.images.length) %
+          property.images.length,
+      }));
+    }
   };
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
+      {category && (
+        <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold" }}>
+          {category
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ")}{" "}
+          Properties
+        </Typography>
+      )}
+
       <Grid container spacing={3} justifyContent="center">
-        {data?.slice(0, visibleItems).map((property) => (
-          <Grid item key={property.id} xs={12} sm={6} md={4} lg={3}>
+        {filteredProperties?.slice(0, visibleItems).map((property) => (
+          <Grid item key={property._id} xs={12} sm={6} md={4} lg={3}>
             <StyledCard onClick={() => navigateToProperty(property._id)}>
               <ImageContainer>
                 <FavoriteButton
                   aria-label="add to favorites"
-                  onClick={(e) => toggleFavorite(e, property.id)}
+                  onClick={(e) => toggleFavorite(e, property._id)}
                   size="small"
                 >
-                  {favorites[property.id] ? (
+                  {favorites[property._id] ? (
                     <FavoriteIcon sx={{ color: "#FF385C" }} />
                   ) : (
                     <FavoriteBorderIcon />
                   )}
                 </FavoriteButton>
 
-                {property.images.length > 1 && (
+                {property.images?.length > 1 && (
                   <>
                     <PrevButton
                       aria-label="previous image"
-                      onClick={(e) => handlePrevImage(e, property.id)}
+                      onClick={(e) => handlePrevImage(e, property._id)}
                       size="small"
                     >
                       <ArrowBackIosNewIcon fontSize="small" />
                     </PrevButton>
                     <NextButton
                       aria-label="next image"
-                      onClick={(e) => handleNextImage(e, property.id)}
+                      onClick={(e) => handleNextImage(e, property._id)}
                       size="small"
                     >
                       <ArrowForwardIosIcon fontSize="small" />
@@ -175,9 +214,9 @@ const PropertyList = () => {
                 ) : (
                   <CardMedia
                     component="img"
-                    image={`http://localhost:6001/${
-                      property.images[currentImageIndex[property.id] || 0]
-                    }`}
+                    image={getImageUrl(
+                      property.images?.[currentImageIndex[property._id] || 0]
+                    )}
                     alt={property.title}
                     sx={{
                       width: "100%",
@@ -210,14 +249,6 @@ const PropertyList = () => {
                   {property.title}
                 </Typography>
 
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mb: 1 }}
-                >
-                  {property.dates}
-                </Typography>
-
                 <Typography variant="subtitle1" fontWeight="bold">
                   ₹{property.price}{" "}
                   <Typography component="span" variant="body2">
@@ -230,7 +261,7 @@ const PropertyList = () => {
         ))}
       </Grid>
 
-      {visibleItems < (data?.length || 0) && (
+      {visibleItems < (filteredProperties?.length || 0) && (
         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
           <Button
             variant="outlined"
@@ -255,6 +286,12 @@ const PropertyList = () => {
             View More
           </Button>
         </Box>
+      )}
+
+      {category && filteredProperties?.length === 0 && !isPending && (
+        <Typography variant="h6" textAlign="center" sx={{ mt: 4 }}>
+          No properties found in the {category.replace(/_/g, " ")} category
+        </Typography>
       )}
     </Container>
   );

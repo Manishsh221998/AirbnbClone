@@ -41,11 +41,14 @@ export const createHotel = (data) =>
 // export const getBooking=()=>
 //   axiosInstance.get(ENDPOINTS.GET_BOOKING)
 export const getBookings = async () => {
-  const { data } = await axios.get('http://localhost:6001/booked/booking/get');
+  const { data } = await axios.get("http://localhost:6001/booked/booking/get");
   return data;
 };
 export const createBooking = async (bookingData) => {
-  const { data } = await axios.post('http://localhost:6001/booked/booking/create', bookingData);
+  const { data } = await axios.post(
+    "http://localhost:6001/booked/booking/create",
+    bookingData
+  );
   return data;
 };
 
@@ -64,11 +67,32 @@ export const getProperties = async () => {
 // single property view
 export const SingleProperty = async (id) => {
   try {
-    const response = await axiosInstance.get(`${ENDPOINTS.GET_SINGLE_PROPERTY}/${id}`);
+    const response = await axiosInstance.get(
+      `${ENDPOINTS.GET_SINGLE_PROPERTY}/${id}`
+    );
     console.log("Single property response:", response.data);
     return response.data; // Return the full response data
   } catch (error) {
     console.error("Error fetching single property:", error.response || error);
+    throw error;
+  }
+};
+
+// category filter
+
+// In apiHandler.js
+export const getPropertiesByCategory = async (category) => {
+  try {
+    const response = await axiosInstance.get(
+      `${ENDPOINTS.GET_PROPERTIES_BY_CATEGORY}/${category}`
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching properties by category:", {
+      error: error.message,
+      response: error.response?.data,
+      status: error.response?.status
+    });
     throw error;
   }
 };

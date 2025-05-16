@@ -17,8 +17,6 @@ import {
   ListItemText,
   Divider,
   Avatar,
-  Popover,
-  ClickAwayListener,
   Container,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
@@ -32,8 +30,6 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import PoolIcon from "@mui/icons-material/Pool";
 import WaterIcon from "@mui/icons-material/Water";
 import LandscapeIcon from "@mui/icons-material/Landscape";
-import BeachAccessOutlinedIcon from "@mui/icons-material/BeachAccessOutlined";
-import AgricultureIcon from "@mui/icons-material/Agriculture";
 import CastleIcon from "@mui/icons-material/Castle";
 import PublicIcon from "@mui/icons-material/Public";
 import ParkIcon from "@mui/icons-material/Park";
@@ -110,23 +106,58 @@ const AirbnbHeader = () => {
     setAnchorEl(null);
   };
 
-  const handleCategoryChange = (event, newValue) => {
-    setCategoryValue(newValue);
+  // Categories that match your backend enum
+  const categories = [
+    {
+      label: "Amazing views",
+      icon: <LandscapeIcon fontSize="small" />,
+      value: "Amazing views",
+    },
+    {
+      label: "Castles",
+      icon: <CastleIcon fontSize="small" />,
+      value: "Castles",
+    },
+    {
+      label: "Beachfronts",
+      icon: <BeachAccessIcon fontSize="small" />,
+      value: "Beachfronts",
+    },
+    { label: "Lake", icon: <WaterIcon fontSize="small" />, value: "Lake" },
+    {
+      label: "Mansions",
+      icon: <HouseIcon fontSize="small" />,
+      value: "Mansions",
+    },
+    { label: "OMG!", icon: <PublicIcon fontSize="small" />, value: "OMG!" },
+    {
+      label: "Rooms",
+      icon: <ApartmentIcon fontSize="small" />,
+      value: "Rooms",
+    },
+    {
+      label: "Top cities",
+      icon: <HouseIcon fontSize="small" />,
+      value: "Top cities",
+    },
+    {
+      label: "Top of the world",
+      icon: <PublicIcon fontSize="small" />,
+      value: "Top of the world",
+    },
+  ];
+
+  const handleCategoryClick = (categoryValue) => {
+    navigate(`/properties?category=${encodeURIComponent(categoryValue)}`);
   };
 
-  const categories = [
-    { label: "Tropical", icon: <BeachAccessIcon fontSize="small" /> },
-    { label: "Icons", icon: <HouseIcon fontSize="small" /> },
-    { label: "Rooms", icon: <ApartmentIcon fontSize="small" /> },
-    { label: "Amazing pools", icon: <PoolIcon fontSize="small" /> },
-    { label: "Lakefront", icon: <WaterIcon fontSize="small" /> },
-    { label: "Amazing views", icon: <LandscapeIcon fontSize="small" /> },
-    { label: "Beachfront", icon: <BeachAccessOutlinedIcon fontSize="small" /> },
-    { label: "Farms", icon: <AgricultureIcon fontSize="small" /> },
-    { label: "Castles", icon: <CastleIcon fontSize="small" /> },
-    { label: "Top of the world", icon: <PublicIcon fontSize="small" /> },
-    { label: "Treehouses", icon: <ParkIcon fontSize="small" /> },
-  ];
+  const handleCategoryChange = (event, newValue) => {
+    setCategoryValue(newValue);
+    const category = categories[newValue]?.value;
+    if (category) {
+      handleCategoryClick(category);
+    }
+  };
 
   const drawer = (
     <Box sx={{ width: 250 }}>
@@ -340,6 +371,7 @@ const AirbnbHeader = () => {
                         icon={category.icon}
                         label={category.label}
                         iconPosition="top"
+                        onClick={() => handleCategoryClick(category.value)}
                       />
                     ))}
                   </Tabs>

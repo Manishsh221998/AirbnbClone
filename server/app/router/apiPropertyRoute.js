@@ -4,7 +4,7 @@ const PropertyController = require("../controller/PropertyController");
 const router = express.Router();
 
 router.get("/property-list", ApiControllerProperty.getAllProperty);
-router.get("/categorywise-list", ApiControllerProperty.getCategoryList);
+router.get("/categorywise-list/:category", ApiControllerProperty.getCategoryList);
 router.get("/single-property/:id", PropertyController.getSingleProperty);
 
 module.exports = router;

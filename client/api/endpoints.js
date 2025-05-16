@@ -25,6 +25,9 @@ export const ENDPOINTS = {
 
   // single Property
   GET_SINGLE_PROPERTY: "/single-property",
+
+  // Category-wise Property
+  GET_CATEGORY_PROPERTIES: "/categorywise-list",
 };
 
 export default BASE_URL;

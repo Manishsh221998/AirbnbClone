@@ -21,40 +21,39 @@ class ApiControllerProperty {
     }
   }
 
-  async getCategoryList(req, res) {
-    try {
-      const { field, value } = req.query;
+  // Update your controller
 
-      if (!field || !value) {
-        return res.status(400).json({
-          status: false,
-          message: "Both field and value query parameters are required",
-        });
-      }
+async getCategoryList(req, res) {
+  try {
+    const { category } = req.params;
+    
+    // Convert URL parameter to match enum values (e.g., "amazing-views" → "Amazing views")
+    const formattedCategory = category
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
 
-      const data = await Property.aggregate([
-        {
-          $match: {
-            [field]: value,
-          },
-        },
-      ]);
+    const data = await Property.find({ 
+      category: formattedCategory 
+    });
 
-      return res.status(200).json({
-        status: true,
-        totalCount: data.length,
-        message: "Category-wise property fetched successfully",
-        data,
-      });
-    } catch (error) {
-      console.error("Error in getCategoryList:", error);
-      return res.status(500).json({
-        status: false,
-        message: "Server error while fetching category properties",
-        error: error.message,
-      });
-    }
+    return res.status(200).json({
+      status: true,
+      totalCount: data.length,
+      message: data.length > 0 
+        ? "Properties fetched successfully" 
+        : "No properties found for this category",
+      data,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Server error",
+      error: error.message
+    });
   }
+}
 }
 
 module.exports = new ApiControllerProperty();

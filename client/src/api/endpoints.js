@@ -26,13 +26,16 @@ const ENDPOINTS = {
 
   // Bookings
   CREATE_BOOKING: "/booking/create",
-  GET_BOOKING:"/booking/get",
+  GET_BOOKING: "/booking/get",
 
   // property images
   GET_PROPERTIES: "/property-list",
 
   //get single property
   GET_SINGLE_PROPERTY: "/single-property",
+
+  //category filter
+  GET_PROPERTIES_BY_CATEGORY: "/categorywise-list",
 };
 
 export default ENDPOINTS;
