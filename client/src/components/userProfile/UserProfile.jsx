@@ -33,6 +33,7 @@ import PortraitIcon from '@mui/icons-material/Portrait';
 import { useProfile, useUpdateProfilePic } from '../../hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import UpdatePasswordDialogBox from './UpdatePasswordDialogBox';
+import Bookings from './BookingProfile';
 
 const UserProfile = () => {
   const theme = useTheme();
@@ -365,6 +366,7 @@ const UserProfile = () => {
 
         {value === 1 && (
           <Box>
+            <Bookings/> 
             <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
               {reviews.length} Reviews
             </Typography>
