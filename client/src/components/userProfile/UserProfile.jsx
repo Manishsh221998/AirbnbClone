@@ -34,7 +34,8 @@ import { useProfile, useUpdateProfilePic } from '../../hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import UpdatePasswordDialogBox from './UpdatePasswordDialogBox';
 import Bookings from './BookingProfile';
-
+import LuggageIcon from '@mui/icons-material/Luggage';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 const UserProfile = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -78,30 +79,21 @@ const UserProfile = () => {
     fileInputRef.current.click();
   };
 
-  // Sample data
-  const listings = [
-    {
-      id: 1,
-      title: 'Modern Loft in Downtown',
-      image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      type: 'Entire apartment',
-      location: 'San Francisco',
-      price: '$120/night',
-      rating: 4.89,
-      reviews: 56
-    }
-  ];
+    // Sample data
+    const listings = [
+      {
+        id: 1,
+        title: 'Modern Loft in Downtown',
+        image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        type: 'Entire apartment',
+        location: 'San Francisco',
+        price: '$120/night',
+        rating: 4.89,
+        reviews: 56
+      }
+    ];
 
-  const reviews = [
-    {
-      id: 1,
-      author: 'Sarah Miller',
-      avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-      date: 'March 2023',
-      rating: 5,
-      text: 'Alex was a wonderful host! The place was exactly as described and in a perfect location.'
-    }
-  ];
+    
 
   // Event handlers
   const handleTabChange = (event, newValue) => {
@@ -292,22 +284,33 @@ const UserProfile = () => {
       </Box>
 
       {/* Tabs Section */}
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-        <Tabs 
-          value={value} 
-          onChange={handleTabChange} 
-          variant={isMobile ? 'scrollable' : 'fullWidth'}
-          sx={{
-            '& .MuiTabs-indicator': { backgroundColor: 'red' },
-            '& .MuiTab-root': { color: 'black' },
-            '& .Mui-selected': { color: 'crimson' },
-            color: 'crimson'
-          }}
-        >
-          <Tab label="Wishlist" icon={isMobile ? <Home /> : null} />
-          <Tab label="Bookings" icon={isMobile ? <Star /> : null} />
-        </Tabs>
-      </Box>
+<Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+  <Tabs 
+    value={value} 
+    onChange={handleTabChange} 
+    variant={isMobile ? 'scrollable' : 'fullWidth'}
+    sx={{
+      '& .MuiTabs-indicator': { backgroundColor: 'red' },
+    }}
+  >
+    <Tab 
+      label="Wishlist" 
+      icon={isMobile ? <FavoriteIcon /> : null} 
+      sx={{
+        color: 'black',
+        '&.Mui-selected': { color: 'crimson' }
+      }}
+    />
+    <Tab 
+      label="My Bookings" 
+      icon={isMobile ? <LuggageIcon /> : null}
+      sx={{
+        color: 'black',
+        '&.Mui-selected': { color: 'crimson' }
+      }}
+    />
+  </Tabs>
+</Box>
 
       {/* Tab Content */}
       <Box sx={{ pt: 2 }}>
@@ -367,34 +370,7 @@ const UserProfile = () => {
         {value === 1 && (
           <Box>
             <Bookings/> 
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
-              {reviews.length} Reviews
-            </Typography>
-            {reviews.map((review) => (
-              <Box key={review.id} sx={{ mb: 3 }}>
-                <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
-                  <Avatar src={review.avatar} />
-                  <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                      {review.author}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {review.date}
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
-                  <Star color="primary" fontSize="small" />
-                  <Typography variant="body2">
-                    {review.rating}
-                  </Typography>
-                </Box>
-                <Typography variant="body1">
-                  {review.text}
-                </Typography>
-                <Divider sx={{ mt: 2 }} />
-              </Box>
-            ))}
+             
           </Box>
         )}
       </Box>

@@ -28,7 +28,7 @@ const footerSections = [
     title: "Support",
     links: [
       "Help Center",
-      "AirCover",
+      "CloudCover",
       "Safety information",
       "Supporting people with disabilities",
       "Cancellation options",
@@ -37,26 +37,26 @@ const footerSections = [
   },
   {
     title: "Community",
-    links: ["Airbnb.org: disaster relief housing", "Combating discrimination"],
+    links: ["Cloudbnb.org: disaster relief housing", "Combating discrimination"],
   },
   {
     title: "Hosting",
     links: [
-      "Airbnb your home",
-      "AirCover for Hosts",
+      "Cloudbnb your home",
+      "CloudCover for Hosts",
       "Explore hosting resources",
       "Visit our community forum",
       "How to host responsibly",
-      "Airbnb-friendly apartments",
+      "Cloudbnb-friendly apartments",
     ],
   },
   {
-    title: "Airbnb",
+    title: "Cloudbnb",
     links: ["Newsroom", "Learn about new features", "Letter from our founders", "Careers", "Investors", "Gift cards"],
   },
 ]
 
-const AirbnbFooter = () => {
+const CloudbnbFooter = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"))
@@ -133,7 +133,7 @@ const AirbnbFooter = () => {
               alignItems={isMobile ? "flex-start" : "center"}
             >
               <Typography variant="body2" color="text.secondary">
-                © {new Date().getFullYear()} Airbnb, Inc.
+                © {new Date().getFullYear()} Cloudbnb
               </Typography>
               <Box
                 component="span"
@@ -166,11 +166,10 @@ const AirbnbFooter = () => {
                   mx: 0.5,
                 }}
               >
-                ·
-              </Box>
-              <Link href="#" color="text.secondary" sx={{ textDecoration: "none" }}>
+               </Box>
+              {/* <Link href="#" color="text.secondary" sx={{ textDecoration: "none" }}>
                 <Typography variant="body2">Sitemap</Typography>
-              </Link>
+              </Link> */}
             </Stack>
           </Grid>
 
@@ -270,4 +269,4 @@ const AirbnbFooter = () => {
   )
 }
 
-export default AirbnbFooter
+export default CloudbnbFooter

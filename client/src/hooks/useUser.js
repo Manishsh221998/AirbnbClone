@@ -27,6 +27,8 @@ export const useRegister = () => {
     },
     onError: (error) => {
       console.error('Registration failed', error.response?.data || error);
+            toast.error(error.response?.data || error,{autoClose:700})
+
     },
   });
 };
@@ -53,6 +55,7 @@ export const useLogin = () => {
         window.localStorage.setItem("userImage", data?.data?.data?.image);
         window.localStorage.setItem("userId", data?.data?.data?._id);
         window.localStorage.setItem("userName", data?.data?.data?.username);
+        window.localStorage.setItem("userPhone", data?.data?.data?.phone);
         navigate("/");  
     }
     ,

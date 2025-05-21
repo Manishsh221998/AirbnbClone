@@ -37,8 +37,6 @@ export default function BookingForm({ price, title }) {
   const checkOut = watch("check_out");
 
   useEffect(() => {
-    const totalGuests = adults + children;
-
     let calculatedNights = 1;
     if (checkIn && checkOut) {
       const inDate = new Date(checkIn);
@@ -51,9 +49,10 @@ export default function BookingForm({ price, title }) {
     }
     setNights(calculatedNights);
 
-    const calculatedPrice = BASE_PRICE * totalGuests * calculatedNights;
-    setTotalPrice(totalGuests > 0 ? calculatedPrice : BASE_PRICE);
-  }, [adults, children, checkIn, checkOut]);
+    // Price calculation now only based on nights, not guests
+    const calculatedPrice = BASE_PRICE * calculatedNights;
+    setTotalPrice(calculatedPrice);
+  }, [checkIn, checkOut]); // Removed guests from dependencies
 
   const mutation = useMutation({
     mutationFn: createBooking,
@@ -61,8 +60,6 @@ export default function BookingForm({ price, title }) {
       toast.success("Booking completed", { autoClose: 700 });
       navigate("/");
       console.log("after mutation data", data);
-
-      // reset();
     },
   });
 
@@ -82,6 +79,7 @@ export default function BookingForm({ price, title }) {
     console.log("before", data);
     let userId = window.localStorage.getItem("userId");
     let userName = window.localStorage.getItem("userName");
+    let userPhone = window.localStorage.getItem("userPhone");
     data.guests = {
       adults,
       children,
@@ -92,6 +90,7 @@ export default function BookingForm({ price, title }) {
     data.userId = userId;
     data.title = title;
     data.userName = userName;
+    data.userPhone = userPhone;
     console.log("data", data);
     mutation.mutate(data);
   };

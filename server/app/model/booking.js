@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, default: mongoose } = require("mongoose");
 
 const BookingSchema = new Schema(
   {
@@ -28,7 +28,12 @@ const BookingSchema = new Schema(
     },
     userName:{
       type:String
-    }
+    },
+    userPhone:{
+      type:String
+    },
+    
+    
   },
   {
     versionKey: false,

@@ -116,7 +116,7 @@ class PropertyController {
       const data = await Property.findById(id);
       // console.log(data)
       res.render("update", {
-        title: "Update property",
+        title: req.cookies.adminName,
         role: req.cookies.adminRole,
         adminName: req.cookies.adminName,
         image: req.cookies.adminImg,
@@ -230,7 +230,7 @@ class PropertyController {
         return res.status(404).send("Property not found");
       }
       res.render("viewSingleProperty", {
-        title: "View Property",
+        title:req.cookies.adminName,
         role: req.cookies.adminRole,
         adminName: req.cookies.adminName,
         image: req.cookies.adminImg,

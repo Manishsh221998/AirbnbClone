@@ -237,14 +237,14 @@ const AirbnbHeader = () => {
                   variant="h6"
                   sx={{ ml: 1, display: { xs: "none", sm: "block" } }}
                 >
-                  airbnb
+                  cloudbnb
                 </Typography>
               </Logo>
             </Link>
 
             {/* Navigation Links - HOME | EXPERIENCE */}
             <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+              sx={{ flexGrow:1, display: "flex", justifyContent: "center" }}
             >
               <NavLink component={Link} to="/">
                 HOME
@@ -270,9 +270,9 @@ const AirbnbHeader = () => {
                 </Button>
               )}
 
-              <IconButton sx={{ mr: 1, color: "gray" }}>
+              {/* <IconButton sx={{ mr: 1, color: "gray" }}>
                 <LanguageIcon fontSize="small" />
-              </IconButton>
+              </IconButton> */}
 
               <Button
                 sx={{
@@ -347,7 +347,7 @@ const AirbnbHeader = () => {
             </Box>
           </Toolbar>
 
-          {location.pathname === "/profile" ? null : (
+          {location.pathname === "/profile" || location.pathname.startsWith("/property/")? null : (
             <>
               {/* Categories */}
               <Box sx={{ borderBottom: 1, borderColor: "divider", px: 2 }}>
@@ -384,7 +384,7 @@ const AirbnbHeader = () => {
                       pl: 2,
                     }}
                   >
-                    <Button
+                    {/* <Button
                       startIcon={<TuneIcon />}
                       sx={{
                         border: "1px solid #ddd",
@@ -394,7 +394,7 @@ const AirbnbHeader = () => {
                       }}
                     >
                       Filters
-                    </Button>
+                    </Button> */}
                   </Box>
                 </Box>
               </Box>
