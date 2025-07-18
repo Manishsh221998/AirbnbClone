@@ -1,6 +1,7 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import ENDPOINTS from "./endpoints";
+import { IMAGE_BASE_URL } from "../../api/endpoints";
 
 // Auth
 export const register = (data) => {
@@ -41,12 +42,12 @@ export const createHotel = (data) =>
 // export const getBooking=()=>
 //   axiosInstance.get(ENDPOINTS.GET_BOOKING)
 export const getBookings = async () => {
-  const { data } = await axios.get("http://localhost:6001/booked/booking/get");
+  const { data } = await axios.get(`${IMAGE_BASE_URL}/booked/booking/get`);
   return data;
 };
 export const createBooking = async (bookingData) => {
   const { data } = await axios.post(
-    "http://localhost:6001/booked/booking/create",
+    `${IMAGE_BASE_URL}/booked/booking/create`,
     bookingData
   );
   return data;
