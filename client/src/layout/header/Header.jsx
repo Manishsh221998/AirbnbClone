@@ -36,6 +36,7 @@ import ParkIcon from "@mui/icons-material/Park";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { getImageUrl } from "../../api/endpoints";
 
 // Logo component
 const Logo = styled("div")(({ theme }) => ({
@@ -288,7 +289,7 @@ const AirbnbHeader = () => {
                 <MenuIcon fontSize="small" sx={{ mr: 1, color: "black" }} />
                 <Avatar
                   sx={{ width: 31, height: 31, bgcolor: "#717171" }}
-                  src={`http://localhost:6001/${userImage}`}
+                  src={getImageUrl(userImage)}
                 >
                   {!userImage && <AccountCircleIcon fontSize="small" />}
                 </Avatar>

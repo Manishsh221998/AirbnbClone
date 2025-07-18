@@ -36,6 +36,8 @@ import UpdatePasswordDialogBox from './UpdatePasswordDialogBox';
 import Bookings from './BookingProfile';
 import LuggageIcon from '@mui/icons-material/Luggage';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { getImageUrl } from '../../api/endpoints';
+
 const UserProfile = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -228,7 +230,7 @@ const UserProfile = () => {
       <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 3, mb: 4 }}>
         <Box sx={{ position: 'relative' }}>
           <Avatar 
-            src={`http://localhost:6001/${userData.image}`}
+            src={getImageUrl(userData.image)}
             sx={{ 
               width: isMobile ? 100 : 150, 
               height: isMobile ? 100 : 150,

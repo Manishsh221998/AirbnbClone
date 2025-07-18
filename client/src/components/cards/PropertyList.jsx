@@ -20,6 +20,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { styled } from "@mui/material/styles";
 import { usePropertiesQuery } from "../../hooks/useProperty";
 import { useNavigate } from "react-router-dom";
+import { getImageUrl } from "../../api/endpoints";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: 12,
@@ -105,11 +106,7 @@ const PropertyList = () => {
     }
   }, [allProperties, category]);
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "/placeholder.jpg";
-    const normalizedPath = imagePath.replace(/\\/g, "/");
-    return `http://localhost:6001/${normalizedPath}`;
-  };
+ 
 
   const toggleFavorite = (e, id) => {
     e.stopPropagation();

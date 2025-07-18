@@ -7,14 +7,14 @@ const connectDB = require("./app/config/db");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const path = require("path");
+const flash = require("connect-flash"); // ✅ Import flash
 
 const app = express();
 
 dotenv.config();
-
 connectDB();
 
-// CORS setup (Ensure .env has FRONTEND_HOST=http://localhost:3000)
+// CORS setup
 app.use(
   cors({
     origin: process.env.FRONTEND_HOST,
@@ -30,7 +30,7 @@ app.set("views", "views");
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// Cookie & session
+// Session (Required before flash)
 app.use(
   session({
     secret: "keyboardcat",
@@ -41,26 +41,30 @@ app.use(
     },
   })
 );
+
+// ✅ Connect flash
+app.use(flash());
+
+// ✅ Flash messages setup (to make them available in EJS)
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+
 app.use(cookieParser());
 
-// ✅ Static folders - Clean approach
-app.use("/uploads", express.static(path.join(__dirname, "uploads"))); 
+// Static files
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.static('public'));
 
-
-// API Routes
-const apiPropertyRouter = require("./app/router/apiPropertyRoute");
-app.use("/api", apiPropertyRouter);
-
-const adminRoute = require("./app/router/routing");
-app.use(adminRoute);
-
+// Routes
+app.use("/api", require("./app/router/apiPropertyRoute"));
+app.use(require("./app/router/routing"));
 app.use("/api", router);
+app.use("/booked", require("./app/router/bookingRoutes"));
 
-const bookingRoute=require("./app/router/bookingRoutes")
-app.use("/booked",bookingRoute)
-
-// Server start
+// Start server
 app.listen(process.env.PORT, () => {
   console.log("Server is running on port", process.env.PORT);
 });
