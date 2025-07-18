@@ -47,6 +47,7 @@ const footerSections = [
       "Explore hosting resources",
       "Visit our community forum",
       "How to host responsibly",
+      
       "Cloudbnb-friendly apartments",
     ],
   },

@@ -1,6 +1,6 @@
-export const BASE_URL = "http://localhost:6001/api";
+export const BASE_URL = "https://cloudbnb-hotel-booking-platform.onrender.com/api";
 
-export const IMAGE_BASE_URL = "http://localhost:6001";
+export const IMAGE_BASE_URL = "https://cloudbnb-hotel-booking-platform.onrender.com";
 // Helper for image URLs
 export const getImageUrl = (imagePath) => {
   if (!imagePath) return "/placeholder.jpg";
