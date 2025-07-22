@@ -7,8 +7,7 @@ const connectDB = require("./app/config/db");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const path = require("path");
-const flash = require("connect-flash"); // ✅ Import flash
-
+const flash = require("connect-flash");  
 const app = express();
 
 dotenv.config();
